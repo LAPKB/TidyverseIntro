@@ -46,7 +46,8 @@ question("Now, which of the tables is tidy?",
          answer("table1", correct = TRUE),
          answer("table2"),
          answer("table3"),
-         incorrect = "Not quite. The type column in table2 has has two variables (rule 1), and observations split into two rows (rule 2). The rate column of table3 has more than one value per cell (rule 3)."
+         incorrect = "Not quite. The type column in table2 has has two variables (rule 1), and observations split into two rows (rule 2). The rate column of table3 has more than one value per cell (rule 3).",
+         correct = "Yes, table1 is tidy. The type column in table2 has has two variables (rule 1), and observations split into two rows (rule 2). The rate column of table3 has more than one value per cell (rule 3)."
 )
 ```
 
@@ -58,13 +59,14 @@ Look at this table. This is the format for pharmacometric data sets used by the 
 question("Is it tidy?",
          answer("Yes"),
          answer("No", correct = TRUE),
-         incorrect = "Not quite. It is almost tidy, but subject 1 for example has two observations at time 120 that are in two rows. To be tidy, the dose value and out value for time 120 should be in the same row."
+         incorrect = "Not quite. It is almost tidy, but subject 1 for example has two observations at time 120 that are in two rows. One way to be tidy is to put the dose value and out value for time 120 in the same row.",
+         correct = "That's right. It is almost tidy, but subject 1 for example has two observations at time 120 that are in two rows. One way to be tidy is to put the dose value and out value for time 120 in the same row."
 )
 ```
 
 <details>
   <summary>More on tidy tables</summary>
-  Let's modify the  table with an additional `EVID` column.
+  Another way to make the table tidy is with an additional `EVID` column.
   
   `r dat3`
   
@@ -72,7 +74,9 @@ question("Is it tidy?",
   question("Now is it tidy?",
           answer("Yes", correct = TRUE),
           answer("No"),
-          incorrect = "It is in fact tidy, because the EVID column now means that each row is an observation and each observation is in a row.")
+          incorrect = "It is in fact tidy, because the EVID column now means that each row is a distinct event and each event is in a distinct row.",
+          correct = "Yes, it has become tidy, because the EVID column now means that each row is a distinct event and each event is in a distinct row."
+          )
   
   ```
 </details>
@@ -98,7 +102,7 @@ table4a |> pivot_longer(cols = !country, names_to = "year", values_to = "cases")
 Do you see how `table4a` became longer? It didn't become narrower, but that can happen. There is a companion function `pivot_wider` which makes tables wider of course, but it is used less often. There are some notes to make about the code above.
 
 * We used a **pipe** `|>`. This operator feeds the left side into the right side, supplying the results of the left side as the initial function argument for the right side. Base R has adopted this pipe, inspired by the original pipe `%>%` in the `magrittr` package. Either pipe will work, but there are some subtle differences for advanced users. Pipes are an incredibly useful way to build a series of data transformations. The first argument for `pivot_longer` is actually `data`, but we don't have to specify that because we piped our data to `pivot_longer`. We'll see in a moment how to use a series of pipes.
-* The next argument is `cols`, which tells `pivot_longer` which columns contain the data which will be made longer. We used `!` to select all columns *except* country, but check out all the ways you can choose columns for pivoting with (tidy-select)[https://tidyr.tidyverse.org/reference/tidyr_tidy_select.html]{target="_blank}. 
+* The next argument is `cols`, which tells `pivot_longer` which columns contain the data which will be made longer. We used `!` to select all columns *except* country, but check out all the ways you can choose columns for pivoting with [tidy-select](https://tidyr.tidyverse.org/reference/tidyr_tidy_select.html){target="_blank}. 
 * The next argument is `names_to` which will be the name of the column created by extracting the information in the names of the columns specified by `cols` to pivot.
 * Lastly, we used `values_to` to name the column that contains the data originally in the `cols` columns.
 
@@ -239,7 +243,7 @@ OK, let's try to put it together into a more complex statement. Try the followin
 ```
 
 ```{r norm-out-solution}
-dat |> select(ID, TIME, DOSE, OUT) |> group_by(ID) |> mutate(norm_out = OUT / mean(DOSE, na.rm = TRUE)) %>% filter(!is.na(norm_out)) |> select(!DOSE) |> summarize (mean_norm_out = mean(norm_out))
+dat |> select(ID, TIME, DOSE, OUT) |> group_by(ID) |> mutate(norm_out = OUT / mean(DOSE, na.rm = TRUE)) |> filter(!is.na(norm_out)) |> select(!DOSE) |> summarize (mean_norm_out = mean(norm_out))
 ```
 
 What if you wanted to just get the mean dose normalized output over the whole population? You can insert `ungroup()` into your pipeline just before the summarize statement.
@@ -249,7 +253,7 @@ What if you wanted to just get the mean dose normalized output over the whole po
 ```
 
 ```{r norm-out-ungroup-solution}
-dat |> select(ID, TIME, DOSE, OUT) |> group_by(ID) |> mutate(norm_out = OUT / mean(DOSE, na.rm = TRUE)) %>% filter(!is.na(norm_out)) |> select(!DOSE) |> ungroup() |> summarize (mean_norm_out = mean(norm_out))
+dat |> select(ID, TIME, DOSE, OUT) |> group_by(ID) |> mutate(norm_out = OUT / mean(DOSE, na.rm = TRUE)) |> filter(!is.na(norm_out)) |> select(!DOSE) |> ungroup() |> summarize (mean_norm_out = mean(norm_out))
 ```
 
 If you did everything correctly, you should have found a value of 0.0125 for the mean of each subject's mean dose-normalized concentrations.
