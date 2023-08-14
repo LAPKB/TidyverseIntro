@@ -1,0 +1,17 @@
+usethis::use_description(fields = list(
+  Title = "Introduction to Tidyverse and plotly",
+  Description = "Tutorials to learn Tidyverse and plotly."
+))
+
+usethis::use_package("keyring")
+usethis::use_package("tidyr")
+usethis::use_package("dplyr")
+#usethis::use_package("Pmetrics")
+usethis::use_package("learnr")
+#usethis::use_package("rlang")
+usethis::use_package("plotly")
+
+#usethis::use_package("remotes")
+usethis::use_package("crayon")
+usethis::use_latest_dependencies()
+

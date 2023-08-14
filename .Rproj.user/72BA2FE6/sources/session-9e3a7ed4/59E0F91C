@@ -1,0 +1,26 @@
+{
+    "id": "59E0F91C",
+    "path": "~/LAPK/Tidyverse/TidyverseIntro/R/utils.R",
+    "project_path": "R/utils.R",
+    "type": "r_source",
+    "hash": "1029122538",
+    "contents": "",
+    "dirty": false,
+    "created": 1690407620162.0,
+    "source_on_save": false,
+    "relative_order": 6,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "32,33",
+        "scrollLine": "17"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1692035020,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1692035020903,
+    "read_only": false,
+    "read_only_alternatives": []
+}
