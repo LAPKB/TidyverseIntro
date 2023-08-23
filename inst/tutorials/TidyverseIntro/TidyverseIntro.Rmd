@@ -1,5 +1,5 @@
 ---
-title: "Tidverse Introduction"
+title: "Tidyverse Introduction"
 output: learnr::tutorial
 runtime: shiny_prerendered
 ---
